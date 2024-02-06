@@ -38,11 +38,17 @@ def ContainsTwoNumbers(password, length):  # verifies the password generated con
         SelectionScreen(password)
 
 def SelectionScreen(password):
-    choice = int(input("Would you like to \n 1. Encrypt \n 2. Decrypt"))
+    choice = int(input("Would you like to \n 1. Generate Password \n 2. Encrypt \n 3. Decrypt \n 4. Close"))
     if choice == 1:
-        encrypt(password)
+        inputLength()
     elif choice == 2:
+        if password == "none":
+            password = input("Please enter the password you would like to encrypt: ")
+        encrypt(password)
+    elif choice == 3:
         decrypt()
+    elif choice == 4:
+        exit()
     else:
         print("Please select a valid option")
 
@@ -58,6 +64,7 @@ def encrypt(password):
             encryptPass += chr((ord(i) + 3 - ord('0')) % 10 + ord('0')) #shifts the character; mod. 10 ensures it stays in the numbers
     print("Original text:", password)
     print("Encrypted text:", encryptPass)
+    SelectionScreen("none")
 
 def bruteForceDecrypt(input_text):
     decrypted_result = ''
@@ -75,6 +82,7 @@ def bruteForceDecrypt(input_text):
 
         print("Shift +" + str(shift) + ": " + decrypted_result)
         decrypted_result = ''
+        SelectionScreen("none")
 def decrypt():
     encrypted_text = input("Enter encrypted text")
     shift = int(input("Enter the shift (Enter 0 to brute force) "))
@@ -91,9 +99,9 @@ def decrypt():
             else:
                 decrypted_result += i
         print(decrypted_result)
+        SelectionScreen("none")
     else:
         bruteForceDecrypt(encrypted_text)
 
 
-
-inputLength()
+SelectionScreen("none")
