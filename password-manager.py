@@ -2,6 +2,7 @@ import random
 import secrets
 import string
 
+
 listAll = string.ascii_letters + string.digits
 
 
@@ -34,18 +35,65 @@ def ContainsTwoNumbers(password, length):  # verifies the password generated con
         GeneratePassword(length)  # regenerates the password if there is not 2 numbers
     else:
         print("Generated password:", ''.join(password))  # prints the generated password
+        SelectionScreen(password)
 
-
-inputLength()
-
-
-'''
-def SelectionScreen():
+def SelectionScreen(password):
     choice = int(input("Would you like to \n 1. Encrypt \n 2. Decrypt"))
     if choice == 1:
-        encrypt()
+        encrypt(password)
     elif choice == 2:
         decrypt()
     else:
         print("Please select a valid option")
-'''
+
+def encrypt(password):
+    encryptPass = ''
+    for i in password:
+        if i.isalpha(): # Encrypt letters
+            if i.isupper():
+                encryptPass += chr((ord(i) + 3 - ord('A')) % 26 + ord('A')) #shifts the character; mod. 26 ensures it stays in the alphabet
+            else:
+                encryptPass += chr((ord(i) + 3 - ord('a')) % 26 + ord('a'))
+        elif i.isdigit(): # Encrypt digits
+            encryptPass += chr((ord(i) + 3 - ord('0')) % 10 + ord('0')) #shifts the character; mod. 10 ensures it stays in the numbers
+    print("Original text:", password)
+    print("Encrypted text:", encryptPass)
+
+def bruteForceDecrypt(input_text):
+    decrypted_result = ''
+    for shift in range(1, 26):
+        for char in input_text:
+            if char.isalpha():
+                if char.isupper():
+                    decrypted_result += chr((ord(char) - shift - ord('A')) % 26 + ord('A'))
+                else:
+                    decrypted_result += chr((ord(char) - shift - ord('a')) % 26 + ord('a'))
+            elif char.isdigit():
+                decrypted_result += chr((ord(char) - shift - ord('0')) % 10 + ord('0'))
+            else:
+                decrypted_result += char
+
+        print("Shift +" + str(shift) + ": " + decrypted_result)
+        decrypted_result = ''
+def decrypt():
+    encrypted_text = input("Enter encrypted text")
+    shift = int(input("Enter the shift (Enter 0 to brute force) "))
+    decrypted_result = ''
+    if shift != 0:
+        for i in encrypted_text:
+            if i.isalpha():
+                if i.isupper():
+                    decrypted_result += chr((ord(i) - shift - ord('A')) % 26 + ord('A'))
+                else:
+                    decrypted_result += chr((ord(i) - shift - ord('a')) % 26 + ord('a'))
+            elif i.isdigit():
+                decrypted_result += chr((ord(i) - shift - ord('0')) % 10 + ord('0'))
+            else:
+                decrypted_result += i
+        print(decrypted_result)
+    else:
+        bruteForceDecrypt(encrypted_text)
+
+
+
+inputLength()
