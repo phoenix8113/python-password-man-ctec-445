@@ -6,7 +6,7 @@ listAll = string.ascii_letters + string.digits
 
 def GeneratePassword(length):  # function to generate password
     password = ''.join(secrets.choice(listAll) for i in range(length))  # borrowed from 'secrets' documentation
-    ContainsTwoNumbers(password, length)  # calls function to ensure there are two numbers
+    ContainsTwoNumbers(password, length)  # calls functionGenerate pickaE to ensure there are two numbers
 
 
 def inputLength():  # function which allows the user to input their desired password length
@@ -38,7 +38,7 @@ def ContainsTwoNumbers(password, length):  # verifies the password generated con
 
 
 def SelectionScreen(password):
-    choice = int(input("Would you like to \n 1. Generate Password \n 2. Encrypt \n 3. Decrypt \n 4. Close"))
+    choice = int(input("Would you like to \n 1. Generate Password \n 2. Encrypt \n 3. Decrypt \n 4. Close \n"))
     if choice == 1:
         inputLength()
     elif choice == 2:
@@ -71,8 +71,8 @@ def encrypt(password):
 
 
 def bruteForceDecrypt(input_text):
-    decrypted_result = ''
     for shift in range(1, 26):
+        decrypted_result = ''  # Reset decrypted_result for each shift
         for i in input_text:
             if i.isalpha():
                 if i.isupper():
@@ -86,7 +86,7 @@ def bruteForceDecrypt(input_text):
 
         print("Shift +" + str(shift) + ": " + decrypted_result)
         decrypted_result = ''
-        SelectionScreen("none")
+    SelectionScreen("none")
 
 
 def decrypt():
